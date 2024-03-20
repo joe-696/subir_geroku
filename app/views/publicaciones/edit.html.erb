@@ -1,0 +1,32 @@
+<h1> Editar producto</h1>
+<%= form_with model: @publicacion do |form| %>
+  <% @publicacion.errors.full_messages.each do |error| %>
+    <%= error %>
+  <% end %>
+  
+  <div>
+    <%= form.label :titulo %>
+    <%= form.text_field :titulo %>
+  </div>
+
+  <div>
+    <%= form.label :descripcion %>
+    <%= form.text_area :descripcion %>
+  </div>
+
+  <div>
+    <%= form.label :category_id %>
+    <%= form.collection_select :category_id, Category.all.order(name: :asc), :id, :name %>
+  </div>
+
+
+  <div>
+    <%= form.label :imagen %>
+    <%= form.file_field :imagen %>
+
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

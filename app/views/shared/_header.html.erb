@@ -1,0 +1,68 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <!-- Marca del Navbar -->
+    <%= link_to(publicaciones_path, class: "navbar-brand") do %>
+      <h1 class="m-0">forUNAS</h1>
+    <% end %>
+    
+    <!-- Botón de desplegar en dispositivos pequeños -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <!-- Contenido del Navbar -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+
+        <!-- Enlace a la página de perfil del usuario actual -->
+        <% if session[:user_id].present? && User.exists?(session[:user_id]) %>
+          <li class="nav-item">
+            <%= link_to(usuario_path(User.find(session[:user_id]).username), class: "nav-link") do %>
+              <i class="bi bi-person"></i><%= User.find_by(id: session[:user_id]).username %>
+            <% end %>
+          </li>
+        <% end %>
+        
+        <!-- Enlace para crear una nueva publicación -->
+        <% if Current.user %>
+          <li class="nav-item">
+            <%= link_to('Nueva publicación', nueva_publicacion_path, class: "nav-link") %>
+          </li>
+        <% end %>
+        
+        <!-- Menú desplegable para el usuario administrador -->
+        <% if Current.user && Current.user.admin? %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Administrador
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <%= link_to('Categorías', categories_path, class: "dropdown-item") %>
+              <!-- Puedes agregar más opciones aquí si es necesario -->
+              <%= link_to('Facultades', faculties_path, class: "dropdown-item") %>
+            </div>
+
+            
+          </li>
+        <% end %>
+        
+        <!-- Enlace para cerrar sesión -->
+        <% if Current.user %>
+          <li class="nav-item">
+            <%= link_to('Cerrar sesión', session_path(1), class: "nav-link", data: { turbo_method: :delete, turbo_confirm: '¿Estás seguro?' }) %>
+          </li>
+        <% end %>
+        
+        <!-- Enlaces para iniciar sesión y registrarse -->
+        <% if User.none? || (Current.user ==nil) %>
+          <li class="nav-item">
+            <%= link_to('Iniciar sesión', new_session_path, class: "nav-link") %>
+          </li>
+          <li class="nav-item">
+            <%= link_to('Registrarse', new_user_path, class: "nav-link") %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Red Social - Publicaciones</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+  <!-- Estilos personalizados -->
+  <style>
+    /* Estilos para las publicaciones */
+    .publicacion {
+      background-color: #fff;
+      border: 1px solid #dddfe2;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+    .publicacion:hover {
+      transform: translateY(-5px);
+    }
+    .publicacion img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .publicacion h2 {
+      margin-bottom: 5px;
+      font-size: 1.5rem;
+    }
+    .publicacion p {
+      margin-bottom: 0;
+    }
+    /* Estilos para el nombre de usuario */
+    .nombre-usuario {
+      font-size: 1.2rem;
+      color: #333; /* Color deseado para el nombre de usuario */
+      /* Otros estilos que desees aplicar */
+    }
+    /* Estilos para las categorías */
+    .categorias {
+      background-color: #f8f9fa;
+      border: 1px solid #dddfe2;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .categorias h2 {
+      margin-top: 0;
+      font-size: 1.5rem;
+    }
+    .categorias .list-group-item {
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .categorias .list-group-item:hover {
+      background-color: #e9ecef;
+    }
+    .category-name {
+      flex: 1;
+    }
+    .ver-mas-perfiles {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .ver-mas-perfiles a {
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 4px;
+      padding: 10px 20px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+    .ver-mas-perfiles a:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+
+    
+    <div class="row">
+      <!-- Columna de Categorías -->
+      <div class="col-md-4 mb-4">
+        <div class="categorias">
+          <h2 class="mb-4">Te puede interesar</h2>
+          <div class="ver-mas-perfiles">
+            <%= link_to "Ver más perfiles", usuario_index_path, class: "btn btn-primary" %>
+          </div>
+          <h2 class="mb-4">Categorías</h2>
+          <%= render partial: 'category', collection: @categories %>
+        </div>
+      </div>
+      
+      <!-- Columna de Publicaciones -->
+      <div class="col-md-8">
+        <h1>Publicaciones</h1>
+
+        <!-- Formulario de búsqueda -->
+        <%= form_with url: publicaciones_path, method: :get do |form| %>
+          <div class="form-group">
+            <%= form.text_field :query, class: "form-control", placeholder: "🔍Buscar en forUnas" %>
+          </div>
+          <%= form.submit "Buscar", class: "btn btn-primary" %>
+        <% end %>
+        <br>
+        <!-- Lista de enlaces para filtrar por facultad -->
+
+        <div class="facultades">
+          <strong><span>Filtrar todas las publicaciones por facultad:</span></strong>
+          <%= form_tag(publicaciones_path, method: :get, id: "filtro-form") do %>
+            <%= select_tag :faculty_id, options_from_collection_for_select(Faculty.all, :id, :name), prompt: "Seleccionar Facultad    🔽", class: "form-control form-control-sm" %>
+            <%= submit_tag "Filtrar", class: "btn btn-primary btn-sm mt-2", style: "display: none;" %>
+          <% end %>
+        </div>
+
+
+        <br>
+
+        <%= turbo_frame_tag "publicacionss~#{@pagy.page}" do %>
+          <!-- Lista de Publicaciones -->
+          <% @publicaciones.each do |publicacion| %>
+            <div class="publicacion">
+              <!-- Contenedor del nombre de usuario -->
+              <div class="usuario">
+                <div class="nombre-usuario">
+                  <i class="bi bi-person me-2" style="font-size: 32px;"></i>
+                  <strong><%= link_to "#{publicacion.user.username} - #{publicacion.user.faculty.name}", usuario_path(publicacion.user.username), data: { turbo_frame: '_top' }%></strong>
+                </div>
+              </div>
+
+              <!-- Contenido de la publicación -->
+              <%= link_to publicacion_path(publicacion.id), data: { turbo_frame: '_top' } do %>
+                <% if publicacion.imagen.attached? %>
+                  <%= image_tag publicacion.imagen, class: "img-fluid", alt: "Imagen de la publicación" %>
+                <% else %>
+                  <div class="placeholder-image"></div>
+                <% end %>
+                <h2><%= publicacion.titulo %></h2>
+              <% end %>
+              <p class="fecha-publicacion"><i class="far fa-calendar-alt"></i> <%= publicacion.created_at.strftime("%d/%m/%Y %H:%M") %></p>
+            </div>
+            <br>
+            
+            
+
+          <% end %>
+          <%= turbo_frame_tag "publicacionss~#{@pagy.next}", src: pagy_url_for(@pagy,@pagy.next), loading: :lazi if @pagy.next%>
+        <% end %>
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS (opcional, si lo necesitas) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+<script>
+  // Cuando cambia la selección del desplegable, enviar automáticamente el formulario
+  document.addEventListener("DOMContentLoaded", function() {
+    const selectFacultad = document.querySelector("#faculty_id");
+    selectFacultad.addEventListener("change", function() {
+      document.querySelector("#filtro-form").submit();
+    });
+  });
+</script>
+</html>

@@ -1,0 +1,38 @@
+<%= form_with url: usuario_index_path, method: :get, class: "form-inline" do |form| %>
+  <div class="input-group">
+    <%= form.text_field :query, class: "form-control", placeholder: "Buscar por @nombre o !facultad o #promo " %>
+    <div class="input-group-append">
+      <%= form.submit "Buscar", class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>
+
+<div class="container mt-5">
+  <div class="row">
+    <%= turbo_frame_tag "usuarioss~#{@pagy.page}" do %>
+      <% @usuarios.each do |usuario| %>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title"><%= usuario.username %></h5>
+              <% if usuario.faculty %>
+                <p class="card-text"><strong>Facultad:</strong> <%= usuario.faculty.name + " "+usuario.promotion%></p>
+                <%if usuario.promotion.present? %>
+                  
+                <%end%>
+              <% end %>
+              
+              <p class="card-text"><strong>Publicaciones: </strong></strong><%= usuario.publicacions.count %></p>
+              
+              <% if Current.user && Current.user.admin? %>
+                <%= link_to 'Eliminar Usuario', eliminar_usuario_path(usuario.id), data: { turbo_method: :delete, turbo_confirm: '¿Estás seguro?' } %>
+              <%end%>
+              <%= link_to 'Ver perfil', usuario_path(usuario.username), class: 'btn btn-primary btn-sm', data: { turbo_frame: '_top' } %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <%= turbo_frame_tag "usuarioss~#{@pagy.next}", src: pagy_url_for(@pagy,@pagy.next), loading: :lazi if @pagy.next%>
+    <%end%>
+  </div>
+</div>

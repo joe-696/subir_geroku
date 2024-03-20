@@ -1,0 +1,21 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: postgres
+  password: oracle
+  host: localhost
+
+development:
+  <<: *default
+  database: your_app_development
+
+test:
+  <<: *default
+  database: your_app_test
+
+production:
+  adapter: postgresql
+  encoding: inicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
