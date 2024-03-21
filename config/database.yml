@@ -21,4 +21,4 @@ production:
   database: your_production_database_name
   username: your_postgres_username
   password: your_postgres_password
-  host: https://forunasunas.fly.dev
+  host: forunasunas.fly.dev
