@@ -21,5 +21,4 @@ production:
   database: your_production_database_name
   username: your_postgres_username
   password: your_postgres_password
-  host: localhost
-
+  host: fdaa:8:c8b1:0:1::11
