@@ -18,7 +18,3 @@ production:
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  database: postgresql
-  username: forunasunas
-  password: yoracle
-  host: fdaa:8:c8b1:0:1::11
