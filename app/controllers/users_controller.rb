@@ -25,19 +25,26 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find_by(username: params[:username])
-    #@publicaciones = User.find_by()
-    @publicaciones=@user.publicacions
-    if @user.nil?
-      redirect_to root_path, alert: 'Usuario no encontrado'
-    else
+    if params[:username].present?
+      @user = User.find_by(username: params[:username])
+
+      if @user.nil?
+        redirect_to root_path, alert: 'Usuario no encontrado'
+      else
+        @publicaciones = @user.publicacions
+      end
     end
   end
   
   def destroy
-    @user = User.find_by(id: params[:username, :username])
-    @user.destroy
-    redirect_to usuario_index_path, notice: 'Usuario eliminado correctamente.'
+    @user = User.find_by(id: params[:username])
+
+    if @user.destroy
+      redirect_to root_path, notice: 'Usuario eliminado correctamente.'
+    else
+      redirect_to root_path, notice: 'Usuario no se elimino.'
+    end
+    
   end
 
 
