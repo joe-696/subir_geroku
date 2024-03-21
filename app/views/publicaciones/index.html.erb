@@ -146,6 +146,8 @@
                 <% end %>
                 <h2><%= publicacion.titulo %></h2>
               <% end %>
+
+              <p><strong>Comentarios: </strong><%= publicacion.comments.count %></p>
               <p class="fecha-publicacion"><i class="far fa-calendar-alt"></i> <%= publicacion.created_at.strftime("%d/%m/%Y %H:%M") %></p>
             </div>
             <br>
