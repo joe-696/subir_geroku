@@ -18,7 +18,7 @@ production:
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  database: your_production_database_name
-  username: your_postgres_username
-  password: your_postgres_password
-  host: forunasunas.fly.dev
+  database: postgresql
+  username: forunasunas
+  password: yoracle
+  host: fdaa:8:c8b1:0:1::11
