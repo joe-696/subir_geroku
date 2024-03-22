@@ -30,6 +30,6 @@ class User < ApplicationRecord
 
   def downcase_attributes
     self.username = username.downcase 
-    self.emails = username.downcase 
+    self.emails = emails.downcase 
   end
 end
