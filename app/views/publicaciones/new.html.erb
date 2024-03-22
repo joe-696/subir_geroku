@@ -32,6 +32,13 @@
               <%= form.label :imagen, "Adjuntar imagen", class: "font-weight-bold" %>
               <%= form.file_field :imagen, class: "form-control-file" %>
             </div>
+            
+            <% if (Current.user && Current.user.admin?) %>
+              <div class="form-group">
+              <%= form.label :fijada, "Fijar publicación", class: "font-weight-bold" %>
+              <%= form.check_box :fijada, class: "form-check-input" %>
+              </div>
+            <%end%>
 
             <div class="form-group mb-0">
               <%= form.submit "Publicar", class: "btn btn-primary btn-block" %>
