@@ -35,7 +35,12 @@
             
             <% if (Current.user && Current.user.admin?) %>
               <div class="form-group">
-              <%= form.label :fijada, "Fijar publicación", class: "font-weight-bold" %>
+              <%= form.label :fijada, "Fijar publicación en facultad", class: "font-weight-bold" %>
+              <%= form.check_box :fijada, class: "form-check-input" %>
+              </div>
+
+              <div class="form-group">
+              <%= form.label :fijadaindex, "Fijar publicación en index ", class: "font-weight-bold" %>
               <%= form.check_box :fijada, class: "form-check-input" %>
               </div>
             <%end%>
