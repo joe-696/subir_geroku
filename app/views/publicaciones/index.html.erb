@@ -81,28 +81,96 @@
     .ver-mas-perfiles a:hover {
       background-color: #0056b3;
     }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      color: #000; /* Color de texto general */
+    }
+    .sidebar {
+      height: 100%;
+      width: 250px;
+      position: fixed;
+      top: 0px;
+      left: -250px;
+      background-color: #333;
+      padding-top: 60px;
+      transition: 0.5s;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Sombra para efecto de profundidad */
+      z-index: 1000; /* Capa más alta para superponerse al contenido */
+    }
+    .sidebar.show {
+      left: 0;
+    }
+    .menu {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .menu li {
+      padding: 10px;
+      border-bottom: 1px solid #555;
+    }
+
+    .menu li a {
+      text-decoration: none;
+      color: #fff;
+      display: block;
+      transition: background-color 0.3s; /* Añadido para suavizar el cambio de color al pasar el ratón */
+    }
+
+    .menu li a:hover {
+      background-color: #555; /* Color de fondo al pasar el ratón */
+    }
+
+    .toggle-btn {
+      position: absolute;
+      top: 65px;
+      left: 250px;
+      cursor: pointer;
+      color: #1b1a1a;
+      background: none;
+      border: none;
+      font-size: 20px;
+      z-index: 1001; /* Capa más alta que la barra lateral para estar siempre visible */
+    }
+    /* Estilo para el contenido cuando el menú está visible */
+    .sidebar.show + h1,
+    .sidebar.show + p {
+      margin-left: 270px; /* Espacio ajustado para acomodar el contenido al mostrar el menú */
+    }
+    .categories-container {
+      max-height: 200px; /* Altura máxima del contenedor */
+      overflow-y: auto; /* Agrega barra de desplazamiento vertical cuando sea necesario */
+      margin-bottom: 20px; /* Espacio inferior para separar del contenido siguiente */
+    }
+
+
   </style>
 </head>
 <body>
-  <div class="container mt-5">
 
+  <!-- Columna de Categorías -->
+  <div class="sidebar">
+    <button class="toggle-btn">☰ Menú</button>
+    <ul class="menu">
+      <h2 style="color: white;" >Te puede interesar</h2>
+      <li><a href="#"><%= link_to "Ver más perfiles", usuario_index_path, class: "btn btn-primary" %></a></li>
+      <li><a href="#"><%= link_to "Tendencias", tendencias_path, class: "btn btn-primary" %></a></li>
+      <li><a href="#">Servicios</a></li>
+      <li><a href="#">Contacto</a></li>
+      <h2 style="color: white;">Categorías</h2>
+      <div class="categories-container">
+        <%= render partial: 'category', collection: @categories %>
+      </div>
+    </ul>
+  </div>
+
+
+  <div class="container mt-5">
     
     <div class="row">
-      <!-- Columna de Categorías -->
-      <div class="col-md-4 mb-4">
-        <div class="categorias">
-          <h2 class="mb-4">Te puede interesar</h2>
-          <div class="ver-mas-perfiles">
-            <%= link_to "Ver más perfiles", usuario_index_path, class: "btn btn-primary" %>
-          </div>
-          <div class="ver-mas-perfiles">
-            <%= link_to "Tendencias", tendencias_path, class: "btn btn-primary" %>
-          </div>
-          <h2 class="mb-4">Categorías</h2>
-          <%= render partial: 'category', collection: @categories %>
-        </div>
-      </div>
-      
+    
       <!-- Columna de Publicaciones -->
       <div class="col-md-8">
         <h1>Publicaciones</h1>
@@ -173,7 +241,7 @@
             <% end %>
           <%end%>
 
-          !-- Lista de Publicaciones Fijadas index-->
+          <!-- Lista de Publicaciones Fijadas index-->
           <%if @publicaciones.present? %>
             <% @publicaciones.each do |publicacion| %>
 
@@ -259,6 +327,9 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 <script>
+  document.querySelector('.toggle-btn').addEventListener('click', function() {
+    document.querySelector('.sidebar').classList.toggle('show');
+  });
   // Cuando cambia la selección del desplegable, enviar automáticamente el formulario
   document.addEventListener("DOMContentLoaded", function() {
     const selectFacultad = document.querySelector("#faculty_id");
