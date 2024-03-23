@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   get '/publicaciones', to: 'publicaciones#index'
   get '/publicaciones/:id', to: 'publicaciones#show', as: :publicacion
   get '/publicaciones/:id/edit', to: 'publicaciones#edit', as: :editar_publicacion
+  get '/tendencias', to: 'publicaciones#tendencias'
+
   # config/routes.rb
 
   resources :comments, only: [:create, :destroy]

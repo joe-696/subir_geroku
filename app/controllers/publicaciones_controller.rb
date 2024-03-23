@@ -54,6 +54,23 @@ class PublicacionesController < ApplicationController
       publicacion 
     end
 
+    def tendencias
+      # Obtener la fecha del lunes de esta semana
+      fecha_lunes = Date.today.beginning_of_week(:monday)
+      
+      # Obtener la fecha del domingo de esta semana
+      fecha_domingo = Date.today.end_of_week(:sunday)
+      
+      # Filtrar las publicaciones que se crearon entre el lunes y el domingo de esta semana
+      @publicaciones = Publicacion.left_joins(:comments)
+                                  .where(created_at: fecha_lunes.beginning_of_day..fecha_domingo.end_of_day)
+                                  .group(:id)
+                                  .order('COUNT(comments.id) DESC')
+                                  .limit(5)
+    end
+    
+
+
     def update
       autorizar! publicacion
       if publicacion.update(publicacion_params)

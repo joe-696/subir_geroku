@@ -95,6 +95,9 @@
           <div class="ver-mas-perfiles">
             <%= link_to "Ver más perfiles", usuario_index_path, class: "btn btn-primary" %>
           </div>
+          <div class="ver-mas-perfiles">
+            <%= link_to "Tendencias", tendencias_path, class: "btn btn-primary" %>
+          </div>
           <h2 class="mb-4">Categorías</h2>
           <%= render partial: 'category', collection: @categories %>
         </div>
@@ -169,6 +172,7 @@
             <% end %>
            
           <% end %>
+
           <h2>Publicaciones</h2>
           <% @publicaciones.each do |publicacion| %>
             <div class="publicacion">
