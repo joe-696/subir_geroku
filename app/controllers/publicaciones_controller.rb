@@ -3,6 +3,10 @@ class PublicacionesController < ApplicationController
 
     def index
       @categories=Category.all
+      if !params[:category_id].present? 
+
+      end
+
       @publicaciones = Publicacion.all.with_attached_imagen.order(created_at: :desc)
       @pagy, @publicaciones = pagy_countless(@publicaciones, items: 10)
 
@@ -18,6 +22,7 @@ class PublicacionesController < ApplicationController
       if params[:faculty_id].present?
         @publicaciones = Publicacion.all.with_attached_imagen.order(created_at: :desc)
         @publicaciones = @publicaciones.joins(:user).where(users: { faculty_id: params[:faculty_id] })
+        @publicaciones_faculty = @publicaciones.joins(:user).where(users: { faculty_id: params[:faculty_id] })
       end
 
 
