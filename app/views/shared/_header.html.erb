@@ -29,6 +29,36 @@
             <%= link_to('Nueva publicación', nueva_publicacion_path, class: "nav-link") %>
           </li>
         <% end %>
+
+
+     
+        <% if session[:user_id].present? && User.exists?(session[:user_id]) %>
+          <!-- Enlace a la página de notificaciones -->
+          <%unread_notifications = Current.user.notifications.where(read: false)%>
+          
+          <li class="nav-item">
+            <%= link_to notifications_path, class: "nav-link" do %>
+              <i class="bi bi-bell"></i> Notificaciones
+              <%if unread_notifications.present?%>
+                <span style="color: red;"><%= unread_notifications.count %></span>
+              <%end%>
+            <%end%>
+              
+
+          </li>
+        <%end%>
+        
+
+
+       
+
+
+
+
+
+       
+
+
         
         <!-- Menú desplegable para el usuario administrador -->
         <% if Current.user && Current.user.admin? %>

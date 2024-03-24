@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notificaciones</title>
+  <!-- Estilos CSS -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    .notification {
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .notification p {
+      margin: 0;
+    }
+
+    .notification p.notification-username {
+      font-weight: bold;
+    }
+
+    .notification p.notification-time {
+      font-size: 0.8rem;
+      color: #6c757d;
+    }
+
+    .notification p.notification-publication {
+      font-style: italic;
+      color: #6c757d;
+    }
+
+    /* Estilo para notificaciones no leídas */
+    .notification.new {
+      border-left: 4px solid #007bff; /* Borde azul a la izquierda */
+    }
+  </style>
+</head>
+<body>
+
+<% @notifications.each do |notification| %>
+  <div class="notification<%= ' new' unless notification.read %>">
+    <p class="notification-username"><%= notification.user.username %></p>
+    <p class="notification-time"><%= notification.created_at.strftime("%d/%m/%Y %H:%M") %></p>
+    <p><%= notification.message %></p>
+    <% if notification.publicacion %>
+      <p class="notification-publication">la publicacion: <%= link_to notification.publicacion.titulo, publicacion_path(notification.publicacion.id) %></p>
+    <% end %>
+  </div>
+<% end %>
+<%@unread_notifications.update_all(read: true) # Marcar todas las notificaciones como leídas%>
+
+<!--# Encuentra las notificaciones más antiguas que las 20 más recientes-->
+<%notifications_to_delete = Notification.where.not(id: @notifications.first(20).pluck(:id))%>
+
+<!--# Elimina las notificaciones antiguas-->
+<%notifications_to_delete.destroy_all%>
+
+</body>
+</html>
+
+
+
+

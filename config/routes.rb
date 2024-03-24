@@ -15,6 +15,8 @@ Rails.application.routes.draw do
 
   resources :comments, only: [:create, :destroy]
   resources :responses, only: [:create, :destroy]
+
+  resources :notifications, only: [:index]
   
 
 
