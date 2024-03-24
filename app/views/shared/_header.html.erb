@@ -13,7 +13,7 @@
     <!-- Contenido del Navbar -->
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto">
-
+        
         <!-- Enlace a la página de perfil del usuario actual -->
         <% if session[:user_id].present? && User.exists?(session[:user_id]) %>
           <li class="nav-item">
@@ -29,37 +29,18 @@
             <%= link_to('Nueva publicación', nueva_publicacion_path, class: "nav-link") %>
           </li>
         <% end %>
-
-
-     
+        
+        <!-- Enlace a la página de notificaciones -->
         <% if session[:user_id].present? && User.exists?(session[:user_id]) %>
-          <!-- Enlace a la página de notificaciones -->
-          <%unread_notifications = Current.user.notifications.where(read: false)%>
-          
+          <% unread_notifications = Current.user.notifications.where(read: false) %>
           <li class="nav-item">
             <%= link_to notifications_path, class: "nav-link" do %>
-              <i class="bi bi-bell"></i> Notificaciones
-              <%if unread_notifications.present?%>
-                <span style="color: red;"><%= unread_notifications.count %></span>
-              <%end%>
-            <%end%>
-              
-
+              <i class="bi bi-bell"></i>
+              <span style="color: red;"><%= unread_notifications.count %></span>
+            <% end %>
           </li>
-        <%end%>
-        
+        <% end %>
 
-
-       
-
-
-
-
-
-       
-
-
-        
         <!-- Menú desplegable para el usuario administrador -->
         <% if Current.user && Current.user.admin? %>
           <li class="nav-item dropdown">
@@ -71,8 +52,6 @@
               <!-- Puedes agregar más opciones aquí si es necesario -->
               <%= link_to('Facultades', faculties_path, class: "dropdown-item") %>
             </div>
-
-            
           </li>
         <% end %>
         
@@ -84,7 +63,7 @@
         <% end %>
         
         <!-- Enlaces para iniciar sesión y registrarse -->
-        <% if User.none? || (Current.user ==nil) %>
+        <% if User.none? || Current.user.nil? %>
           <li class="nav-item">
             <%= link_to('Iniciar sesión', new_session_path, class: "nav-link") %>
           </li>
