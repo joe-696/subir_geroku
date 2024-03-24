@@ -10,6 +10,40 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
   <!-- Estilos personalizados -->
   <style>
+
+    /* Estilos para el menú desplegable */
+    .menu-desplegable {
+      position: relative;
+      overflow-x: auto; /* Agrega desplazamiento horizontal */
+    }
+    
+    .toggle-menu {
+      display: none;
+    }
+    
+    .toggle-label {
+      display: block;
+      cursor: pointer;
+    }
+    
+    .menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 1;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 8px 0;
+      white-space: nowrap; /* Evita que los elementos se rompan */
+    }
+    
+    /* Mostrar el menú cuando el checkbox está marcado */
+    .toggle-menu:checked + .menu {
+      display: block;
+    }
+  
     /* Estilos para las publicaciones */
     .publicacion {
       background-color: #fff;
@@ -39,8 +73,12 @@
     /* Estilos para el nombre de usuario */
     .nombre-usuario {
       font-size: 1.2rem;
-      color: #333; /* Color deseado para el nombre de usuario */
+      color: black; /* Color deseado para el nombre de usuario */
       /* Otros estilos que desees aplicar */
+    }
+    .nav-link {
+    color: black; /* Cambia el color del texto a negro */
+    /* Otros estilos que desees aplicar */
     }
     /* Estilos para las categorías */
     .categorias {
@@ -144,6 +182,25 @@
       overflow-y: auto; /* Agrega barra de desplazamiento vertical cuando sea necesario */
       margin-bottom: 20px; /* Espacio inferior para separar del contenido siguiente */
     }
+    .scroll-horizontal {
+      overflow-x: auto;
+      white-space: nowrap; /* Evita que los elementos se rompan */
+    }
+    .exclusive-heading {
+      font-family: 'Open Sans', sans-serif; /* Cambia "Your Preferred Font" por tu fuente preferida */
+      color: #D2B48X; /* Cambia #ff0000 por tu color preferido */
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra para efecto de flotación */
+      animation: floatAnimation 5s infinite alternate; /* Animación de flotación */
+    }
+    @keyframes floatAnimation {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(-10px);
+      }
+    }
+
 
 
   </style>
@@ -187,13 +244,21 @@
 
         <div class="facultades">
           <strong><span>Filtrar todas las publicaciones por facultad:</span></strong>
-          <%= form_tag(publicaciones_path, method: :get, id: "filtro-form") do %>
-            <%= select_tag :faculty_id, options_from_collection_for_select(Faculty.all, :id, :name), prompt: "Seleccionar Facultad    🔽", class: "form-control form-control-sm" %>
-            <%= submit_tag "Filtrar", class: "btn btn-primary btn-sm mt-2", style: "display: none;" %>
-          <% end %>
+          <div class="scroll-horizontal">
+            <div class="btn-group">
+              <% Faculty.all.each do |faculty| %>
+                <%= link_to faculty.name, publicaciones_path(faculty_id: faculty.id), class: "btn btn-primary btn-sm", role: "button" %>
+              <% end %>
+            </div>
+          </div>
         </div>
 
 
+
+        <br>
+        <strong class="exclusive-heading">
+          <h2><%= @faculty_name %></h2>
+        </strong>
         <br>
 
         <%= turbo_frame_tag "publicacionss~#{@pagy.page}" do %>
@@ -292,22 +357,24 @@
               <div class="usuario">
                 <div class="nombre-usuario">
                   <i class="bi bi-person me-2" style="font-size: 32px;"></i>
-                  <strong><%= link_to "#{publicacion.user.username} - #{publicacion.user.faculty.name}", usuario_path(publicacion.user.username), data: { turbo_frame: '_top' }%></strong>
+                  <strong ><%= link_to "#{publicacion.user.username} - #{publicacion.user.faculty.name}", usuario_path(publicacion.user.username), style: "color: black;", data: { turbo_frame: '_top' }%></strong>
                 </div>
               </div>
 
               <!-- Contenido de la publicación -->
-              <%= link_to publicacion_path(publicacion.id), data: { turbo_frame: '_top' } do %>
+              <p class="fecha-publicacion"><i class="far fa-calendar-alt"></i> <%= publicacion.created_at.strftime("%d/%m/%Y %H:%M") %></p>
+              <%= link_to publicacion_path(publicacion.id), style: "color: black;", data: { turbo_frame: '_top' } do %>
                 <% if publicacion.imagen.attached? %>
                   <%= image_tag publicacion.imagen, class: "img-fluid", alt: "Imagen de la publicación" %>
                 <% else %>
                   <div class="placeholder-image"></div>
                 <% end %>
                 <h2><%= publicacion.titulo %></h2>
+                <p><strong>Comentarios: </strong><%= publicacion.comments.count %></p>
               <% end %>
 
-              <p><strong>Comentarios: </strong><%= publicacion.comments.count %></p>
-              <p class="fecha-publicacion"><i class="far fa-calendar-alt"></i> <%= publicacion.created_at.strftime("%d/%m/%Y %H:%M") %></p>
+              
+              
             </div>
             <br>
             

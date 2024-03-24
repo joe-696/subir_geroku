@@ -20,6 +20,8 @@ class PublicacionesController < ApplicationController
       end
 
       if params[:faculty_id].present?
+        @faculty = Faculty.find_by(id: params[:faculty_id])
+        @faculty_name = @faculty.name if @faculty.present?
         @publicaciones = Publicacion.all.with_attached_imagen.order(created_at: :desc)
         @publicaciones = @publicaciones.joins(:user).where(users: { faculty_id: params[:faculty_id] })
         @publicaciones_faculty = @publicaciones.joins(:user).where(users: { faculty_id: params[:faculty_id] })
