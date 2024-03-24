@@ -190,35 +190,35 @@
             <%end%>
             <% @publicaciones.each do |publicacion| %>
               <% if publicacion.fijadaindex %>
-              div class="card my-4">
+              <div class="card my-4">
                 <div class="card-body">
-                </div>
-                
-                  <div class="publicacion">
-                    <!-- Contenedor del nombre de usuario -->
-                    <div class="usuario">
-                      <div class="nombre-usuario">
-                        <i class="bi bi-person me-2" style="font-size: 32px;"></i>
-                        <strong><%= link_to "#{publicacion.user.username} - #{publicacion.user.faculty.name}", usuario_path(publicacion.user.username), data: { turbo_frame: '_top' }%></strong>
-                      </div>
-                    </div>
-
-                    <!-- Contenido de la publicación -->
-                    <%= link_to publicacion_path(publicacion.id), data: { turbo_frame: '_top' } do %>
-                      <% if publicacion.imagen.attached? %>
-                        <%= image_tag publicacion.imagen, class: "img-fluid", alt: "Imagen de la publicación" %>
-                      <% else %>
-                        <div class="placeholder-image"></div>
-                      <% end %>
-                      <h2><%= publicacion.titulo %></h2>
-                    <% end %>
-
-                    <p><strong>Comentarios: </strong><%= publicacion.comments.count %></p>
-                    <p class="fecha-publicacion"><i class="far fa-calendar-alt"></i> <%= publicacion.created_at.strftime("%d/%m/%Y %H:%M") %></p>
                   </div>
-                  <br>
+                  
+                    <div class="publicacion">
+                      <!-- Contenedor del nombre de usuario -->
+                      <div class="usuario">
+                        <div class="nombre-usuario">
+                          <i class="bi bi-person me-2" style="font-size: 32px;"></i>
+                          <strong><%= link_to "#{publicacion.user.username} - #{publicacion.user.faculty.name}", usuario_path(publicacion.user.username), data: { turbo_frame: '_top' }%></strong>
+                        </div>
+                      </div>
 
-                </div>
+                      <!-- Contenido de la publicación -->
+                      <%= link_to publicacion_path(publicacion.id), data: { turbo_frame: '_top' } do %>
+                        <% if publicacion.imagen.attached? %>
+                          <%= image_tag publicacion.imagen, class: "img-fluid", alt: "Imagen de la publicación" %>
+                        <% else %>
+                          <div class="placeholder-image"></div>
+                        <% end %>
+                        <h2><%= publicacion.titulo %></h2>
+                      <% end %>
+
+                      <p><strong>Comentarios: </strong><%= publicacion.comments.count %></p>
+                      <p class="fecha-publicacion"><i class="far fa-calendar-alt"></i> <%= publicacion.created_at.strftime("%d/%m/%Y %H:%M") %></p>
+                    </div>
+                    <br>
+
+                  </div>
               
               <% end %>
             
