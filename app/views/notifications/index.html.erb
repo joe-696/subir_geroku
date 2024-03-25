@@ -65,8 +65,7 @@
         </div>
       <% end %>
 
-      <% @unread_notifications.update_all(read: true) %>
-
+      
       <% notifications_to_delete = Notification.where.not(id: @notifications.first(20).pluck(:id)) %>
       <% notifications_to_delete.destroy_all %>
 
