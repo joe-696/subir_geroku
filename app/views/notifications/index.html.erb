@@ -53,7 +53,9 @@
 <div class="container mt-5">
   <div class="row">
     <div class="col-md-8 offset-md-2">
-
+      <%= link_to "leido", notifications_path(mark_as_read: true), class: "btn btn-primary" %>
+      <br>
+      <br>
       <% @notifications.each do |notification| %>
         <div class="notification<%= ' new' unless notification.read %>">
           <p class="notification-username"><%= notification.user.username %></p>
@@ -65,7 +67,6 @@
         </div>
       <% end %>
 
-      
       <% notifications_to_delete = Notification.where.not(id: @notifications.first(20).pluck(:id)) %>
       <% notifications_to_delete.destroy_all %>
 
