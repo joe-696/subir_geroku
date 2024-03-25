@@ -9,6 +9,7 @@ class Publicacion < ApplicationRecord
         where("titulo LIKE ? OR descripcion LIKE ?", "%#{query}%", "%#{query}%")
     end
     has_many :comments, dependent: :destroy
+    has_many :notifications, dependent: :destroy
     # publicación puede tener muchos comentarios. 
 
     belongs_to :category
