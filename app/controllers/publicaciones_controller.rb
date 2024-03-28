@@ -41,6 +41,13 @@ class PublicacionesController < ApplicationController
      @publicacion= Publicacion.find(params[:id])
      @comments = @publicacion.comments.order(created_at: :desc)
      @respuestas=Response.all
+     @me_divierte_count = @publicacion.reactions.where(reaction_type: 'me_divierte').count 
+     @me_gusta_count = @publicacion.reactions.where(reaction_type: 'me_gusta').count 
+     @me_encanta_count = @publicacion.reactions.where(reaction_type: 'me_encanta').count 
+     @me_asombra_count = @publicacion.reactions.where(reaction_type: 'me_asombra').count 
+     @me_entristese_count = @publicacion.reactions.where(reaction_type: 'me_entristese').count 
+     @me_enoja_count= @publicacion.reactions.where(reaction_type: 'me_enoja').count 
+
     end
     
     def new

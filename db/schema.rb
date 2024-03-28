@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_24_174944) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_27_205310) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -67,7 +67,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_24_174944) do
   create_table "notifications", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "message"
-    t.boolean "read", default: true
+    t.boolean "read", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "publicacion_id", null: false
@@ -86,6 +86,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_24_174944) do
     t.boolean "fijadaindex"
     t.index ["category_id"], name: "index_publicacions_on_category_id"
     t.index ["user_id"], name: "index_publicacions_on_user_id"
+  end
+
+  create_table "reactions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "publicacion_id", null: false
+    t.string "reaction_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["publicacion_id"], name: "index_reactions_on_publicacion_id"
+    t.index ["user_id"], name: "index_reactions_on_user_id"
   end
 
   create_table "responses", force: :cascade do |t|
@@ -120,6 +130,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_24_174944) do
   add_foreign_key "notifications", "users"
   add_foreign_key "publicacions", "categories"
   add_foreign_key "publicacions", "users"
+  add_foreign_key "reactions", "publicacions"
+  add_foreign_key "reactions", "users"
   add_foreign_key "responses", "comments"
   add_foreign_key "responses", "users"
   add_foreign_key "users", "faculties"

@@ -109,6 +109,10 @@
             <p class="lead text-center"><%= @publicacion.descripcion %></p>
             <p class="text-muted text-center mb-4"><i class="bi bi-calendar-check"></i><%= @publicacion.created_at.strftime("%d/%m/%Y %H:%M") %></p>
 
+            <!-- contenedor para reaccionar -->
+            <%= render partial: 'reaccionar' %>
+            
+
             <div class="d-grid gap-2 d-md-flex justify-content-md-center">
               <% if @publicacion.user.id == session[:user_id] || (Current.user && Current.user.admin?) %>
                 <%= link_to editar_publicacion_path(@publicacion), class: "btn btn-warning me-md-3 mb-2 mb-md-0", data: { turbo_frame: '_top' } do %>
@@ -121,6 +125,14 @@
                   <i class="bi bi-trash-fill me-1"></i> Eliminar
                 <% end %>
               <% end %>
+
+              
+            
+
+
+              <!-- app/views/publicaciones/show.html.erb -->
+
+              <!-- Agregar más botones según sea necesario -->
 
               <% if @publicacion.user.id != session[:user_id] %>
                 <%= link_to usuario_path(@publicacion.user.username), class: "btn btn-primary" do %>

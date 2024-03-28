@@ -10,6 +10,7 @@ class Publicacion < ApplicationRecord
     end
     has_many :comments, dependent: :destroy
     has_many :notifications, dependent: :destroy
+    has_many :reactions, dependent: :destroy
     # publicación puede tener muchos comentarios. 
 
     belongs_to :category

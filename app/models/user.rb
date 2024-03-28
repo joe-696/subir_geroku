@@ -23,6 +23,7 @@ class User < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :responses, dependent: :destroy
   has_many :notifications, dependent: :destroy
+  has_many :reactions, dependent: :destroy
   
   before_save :downcase_attributes
 

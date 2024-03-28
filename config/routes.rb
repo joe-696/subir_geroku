@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   get '/tendencias', to: 'publicaciones#tendencias'
 
   # config/routes.rb
+  resources :reactions, only: [:index, :create]
+
 
   resources :comments, only: [:create, :destroy]
   resources :responses, only: [:create, :destroy]
