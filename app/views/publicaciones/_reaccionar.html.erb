@@ -1,5 +1,5 @@
 <%= turbo_frame_tag 'reaccion' do %>
-    <% if @publicacion.user.id == session[:user_id] || (Current.user && Current.user.admin?) %>
+    <% if @publicacion.user.id == session[:user_id] || Current.user%>
       <%= link_to reactions_path(publicacion_id: @publicacion.id, reaction_type: :me_gusta), method: :post do %>
         👍 <%= @me_gusta_count %>
       <% end %>
