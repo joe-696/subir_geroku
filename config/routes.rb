@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   # config/routes.rb
   resources :reactions, only: [:index, :create]
+  get '/reacciones', to: 'reactions#reacciones'
 
 
   resources :comments, only: [:create, :destroy]

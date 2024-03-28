@@ -18,6 +18,10 @@ class ReactionsController < ApplicationController
       redirect_to @publicacion, alert: 'No se pudo agregar la reacción.'
     end
   end
+  
+  def reacciones
+    @reactions = @publicacion.reactions
+  end
 
   private
 

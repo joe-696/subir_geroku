@@ -1,0 +1,24 @@
+<!-- views/reactions/index.html.erb -->
+<div class="container">
+  <h1 class="mb-4">Reacciones de la Publicación</h1>
+
+  <% if @reactions.any? %>
+    <div class="row">
+      <% @reactions.group_by(&:reaction_type).each do |reaction_type, reactions| %>
+        <div class="col-md-4">
+          <div class="card mb-4">
+            <div class="card-body">
+              <h5 class="card-title">Tipo de Reacción: <%= reaction_type %></h5>
+              <% reactions.each do |reaction| %>
+                <p class="card-text">Usuario: <%= reaction.user.username %></p>
+                <!-- Otros detalles de la reacción si es necesario -->
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p>No hay reacciones para esta publicación.</p>
+  <% end %>
+</div>
