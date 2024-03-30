@@ -1,29 +1,29 @@
-<%= turbo_frame_tag 'reaccion' do %>
+<%= turbo_frame_tag 'reaccion show' do %>
     <% if @publicacion.user.id == session[:user_id] || Current.user%>
-      <%= link_to reactions_path(publicacion_id: @publicacion.id, reaction_type: :me_gusta), method: :post do %>
+      <%= link_to reactions_path(publicacion_id: @publicacion.id, reaction_type: :me_gusta), method: :post, data: { turbo_frame: '_top' } do %>
         👍 <%= @me_gusta_count %>
       <% end %>
   
-      <%= link_to reactions_path(publicacion_id: @publicacion.id, reaction_type: :me_encanta), method: :post do %>
+      <%= link_to reactions_path(publicacion_id: @publicacion.id, reaction_type: :me_encanta), method: :post, data: { turbo_frame: '_top' } do %>
         😍 <%= @me_encanta_count %>
       <% end %>
   
-      <%= link_to reactions_path(publicacion_id: @publicacion.id, reaction_type: :me_divierte), method: :post do %>
+      <%= link_to reactions_path(publicacion_id: @publicacion.id, reaction_type: :me_divierte), method: :post, data: { turbo_frame: '_top' } do %>
         😂 <%= @me_divierte_count %>
       <% end %>
 
   
-      <%= link_to reactions_path(publicacion_id: @publicacion.id, reaction_type: :me_asombra), method: :post do %>
+      <%= link_to reactions_path(publicacion_id: @publicacion.id, reaction_type: :me_asombra), method: :post, data: { turbo_frame: '_top' } do %>
         😲 <%= @me_asombra_count %>
       <% end %>
       
 
   
-      <%= link_to reactions_path(publicacion_id: @publicacion.id, reaction_type: :me_entristese), method: :post do %>
+      <%= link_to reactions_path(publicacion_id: @publicacion.id, reaction_type: :me_entristese), method: :post, data: { turbo_frame: '_top' } do %>
         😢 <%= @me_entristese_count %>
       <% end %>
   
-      <%= link_to reactions_path(publicacion_id: @publicacion.id, reaction_type: :me_enoja), method: :post do %>
+      <%= link_to reactions_path(publicacion_id: @publicacion.id, reaction_type: :me_enoja), method: :post, data: { turbo_frame: '_top' } do %>
         😠 <%= @me_enoja_count %>
       <% end %>
     <% end %>

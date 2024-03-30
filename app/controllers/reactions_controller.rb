@@ -13,7 +13,7 @@ class ReactionsController < ApplicationController
     # Crear la nueva reacción
     @reaction = @publicacion.reactions.build(user_id: session[:user_id], reaction_type: params[:reaction_type])
     if @reaction.save
-      redirect_to @publicacion
+      redirect_to publicaciones_path
     else
       redirect_to @publicacion, alert: 'No se pudo agregar la reacción.'
     end
