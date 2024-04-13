@@ -109,8 +109,17 @@
             <p class="lead text-center"><%= @publicacion.descripcion %></p>
             <p class="text-muted text-center mb-4"><i class="bi bi-calendar-check"></i><%= @publicacion.created_at.strftime("%d/%m/%Y %H:%M") %></p>
 
-            <!-- contenedor para reaccionar -->
-            <%= render partial: 'reaccionar' %>
+            <!-- MOSTRAR REAACCIONES DESTACADAS -->   
+                <% destacadas = @publicacion.reactions.group(:reaction_type).count.sort_by { |_, v| -v }.first(3) %>
+                <% if destacadas.present? %>
+                  <div class="reacciones-destacadas">
+                    <%= link_to reacciones_path(publicacion_id: @publicacion.id), data: { turbo_frame: '_top' } do %>
+                      <% destacadas.each do |tipo, cantidad| %>
+                        <%= "#{tipo.humanize.capitalize}" "#{cantidad}" if tipo.present? %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                <% end %>
             
 
             <div class="d-grid gap-2 d-md-flex justify-content-md-center">
