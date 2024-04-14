@@ -2,6 +2,8 @@ source "https://rubygems.org"
 
 gem "pagy", "~> 7.0" 
 gem 'will_paginate'  
+gem 'rails_autolink'
+
 
 ruby "3.2.3"
 

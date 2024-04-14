@@ -106,7 +106,7 @@
                 <%= image_tag @publicacion.imagen, width: 400, class: "img-fluid rounded" %>
               <% end %>
             </div>
-            <p class="lead text-center"><%= @publicacion.descripcion %></p>
+            <p class="lead text-center"><%= auto_link(simple_format(@publicacion.descripcion)) %></p>
             <p class="text-muted text-center mb-4"><i class="bi bi-calendar-check"></i><%= @publicacion.created_at.strftime("%d/%m/%Y %H:%M") %></p>
 
             <!-- MOSTRAR REAACCIONES DESTACADAS -->   
