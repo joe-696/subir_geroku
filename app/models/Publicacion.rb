@@ -4,9 +4,9 @@ class Publicacion < ApplicationRecord
     validates :titulo, presence: true 
     validates :descripcion, presence: true 
     
-    
+
     def self.search(query)
-        where("titulo LIKE ? OR descripcion LIKE ?", "%#{query}%", "%#{query}%")
+        where("titulo ILIKE :query OR descripcion ILIKE :query", query: "%#{query}%")
     end
     has_many :comments, dependent: :destroy
     has_many :notifications, dependent: :destroy

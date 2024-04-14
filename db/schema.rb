@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_27_205310) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_14_194506) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -117,6 +117,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_27_205310) do
     t.boolean "admin", default: false
     t.string "promotion"
     t.bigint "faculty_id", null: false
+    t.boolean "verified", default: false
     t.index ["emails"], name: "index_users_on_emails", unique: true
     t.index ["faculty_id"], name: "index_users_on_faculty_id"
     t.index ["username"], name: "index_users_on_username", unique: true

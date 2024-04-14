@@ -97,6 +97,12 @@
             <h1 class="text-center">
                 <i class="bi bi-person me-2" style="font-size: 32px;"></i>
                 <%= @user.username + " - "+@user.faculty.name + " "+@user.promotion%>
+                <% if @user.verified %>
+                    <span class="badge bg-success">Verificado</span>
+                <% end %>
+                <% if @user.admin %>
+                    <span class="badge bg-primary">Administrador</span>
+                <% end %>
             </h1>
 
 
